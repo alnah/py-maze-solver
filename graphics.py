@@ -5,6 +5,7 @@ from tkinter import Tk, BOTH, Canvas
 class FillColor(Enum):
     BLACK = "black"
     RED = "red"
+    GREY = "grey"
 
 
 class Point:
