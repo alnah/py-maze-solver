@@ -1,4 +1,32 @@
+from enum import Enum
 from tkinter import Tk, BOTH, Canvas
+
+
+class FillColor(Enum):
+    BLACK = "black"
+    RED = "red"
+
+
+class Point:
+    def __init__(self, x: int, y: int) -> None:
+        self.x = x
+        self.y = y
+
+
+class Line:
+    def __init__(self, p1: Point, p2: Point) -> None:
+        self.p1 = p1
+        self.p2 = p2
+
+    def draw(self, canvas: Canvas, fill_color: FillColor) -> None:
+        canvas.create_line(
+            self.p1.x,
+            self.p1.y,
+            self.p2.x,
+            self.p2.y,
+            fill=fill_color.value,
+            width=2,
+        )
 
 
 class Window:
@@ -22,3 +50,6 @@ class Window:
 
     def close(self) -> None:
         self.__running = False
+
+    def draw_line(self, line: Line, fill_color: FillColor) -> None:
+        line.draw(self.__canvas, fill_color)
