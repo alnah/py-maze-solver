@@ -1,10 +1,25 @@
-from graphics import FillColor, Line, Point, Window
+from graphics import Window
+from cell import Cell
 
 
 def main():
     win = Window(800, 600)
 
-    win.draw_line(Line(Point(0, 200), Point(200, 0)), FillColor.BLACK)
+    c = Cell(win)
+    c.has_left_wall = False
+    c.draw(50, 100, 50, 100)
+
+    c = Cell(win)
+    c.has_right_wall = False
+    c.draw(125, 200, 125, 200)
+
+    c = Cell(win)
+    c.has_bottom_wall = False
+    c.draw(225, 250, 225, 250)
+
+    c = Cell(win)
+    c.has_top_wall = False
+    c.draw(300, 500, 300, 500)
 
     win.wait_for_close()
 
