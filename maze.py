@@ -33,6 +33,7 @@ class Maze:
         if self._cells:
             self._break_entrance_and_exit()
             self._break_walls_with_dfs(0, 0)
+            self._reset_cells_visited()
 
     def _create_cells(self) -> None:
         for i in range(self._num_cols):
@@ -74,22 +75,22 @@ class Maze:
         exit.has_bottom_wall = False
         exit.draw(exit._x1, exit._y1, exit._x2, exit._y2)
 
-    def _break_walls_with_dfs(self, start_i: int, start_j: int):
+    def _break_walls_with_dfs(self, start_i: int, start_j: int) -> None:
         stack = [(start_i, start_j)]
-        self._cells[start_i][start_j]._visited = True
+        self._cells[start_i][start_j].visited = True
 
         while stack:
             i, j = stack[-1]
             next_index_list = []
 
             # Check unvisited neighbors
-            if i > 0 and not self._cells[i - 1][j]._visited:  # left
+            if i > 0 and not self._cells[i - 1][j].visited:  # left
                 next_index_list.append((i - 1, j))
-            if i < self._num_cols - 1 and not self._cells[i + 1][j]._visited:  # right
+            if i < self._num_cols - 1 and not self._cells[i + 1][j].visited:  # right
                 next_index_list.append((i + 1, j))
-            if j > 0 and not self._cells[i][j - 1]._visited:  # up
+            if j > 0 and not self._cells[i][j - 1].visited:  # up
                 next_index_list.append((i, j - 1))
-            if j < self._num_rows - 1 and not self._cells[i][j + 1]._visited:  # down
+            if j < self._num_rows - 1 and not self._cells[i][j + 1].visited:  # down
                 next_index_list.append((i, j + 1))
 
             if next_index_list:
@@ -110,10 +111,15 @@ class Maze:
                     self._cells[i][j].has_top_wall = False
                     self._cells[i][next_j].has_bottom_wall = False
 
-                self._cells[next_i][next_j]._visited = True
+                self._cells[next_i][next_j].visited = True
                 self._draw_cell(next_i, next_j)
                 stack.append((next_i, next_j))
             else:
                 # Backtrack if no unvisited neighbors
                 self._draw_cell(i, j)
                 stack.pop()
+
+    def _reset_cells_visited(self) -> None:
+        for i in range(self._num_cols):
+            for j in range(self._num_rows):
+                self._cells[i][j].visited = False
