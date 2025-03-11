@@ -17,8 +17,8 @@ class Cell:
     def draw(self, x1: float, y1: float, x2: float, y2: float) -> None:
         def set_fill_color(has_wall: bool) -> FillColor:
             if not has_wall:
-                return FillColor.WHITE
-            return FillColor.BLACK
+                return FillColor.BLACK
+            return FillColor.WHITE
 
         self._x1, self._y1, self._x2, self._y2 = x1, y1, x2, y2
 
@@ -58,9 +58,9 @@ class Cell:
         x_center2 = half_length2 + to_cell._x1
         y_center2 = half_length2 + to_cell._y1
 
-        fill_color = FillColor.RED
+        fill_color = FillColor.GREEN
         if undo:
-            fill_color = FillColor.GREY
+            fill_color = FillColor.RED
 
         line = Line(Point(x_center, y_center), Point(x_center2, y_center2))
         if self._win is None:

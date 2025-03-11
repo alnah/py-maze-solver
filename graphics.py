@@ -3,10 +3,10 @@ from tkinter import Tk, BOTH, Canvas
 
 
 class FillColor(Enum):
-    BLACK = "black"
     WHITE = "white"
-    RED = "red"
-    GREY = "grey"
+    BLACK = "black"
+    GREEN = "#00FF7F"
+    RED = "#cc0000"
 
 
 class Point:
@@ -38,7 +38,7 @@ class Window:
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
         self.__canvas = Canvas(
             self.__root,
-            bg=FillColor.WHITE.value,
+            bg=FillColor.BLACK.value,
             height=height,
             width=width,
         )
@@ -55,7 +55,7 @@ class Window:
             self.redraw()
         print("window closed...")
 
-    def draw_line(self, line: Line, fill_color: FillColor = FillColor.BLACK) -> None:
+    def draw_line(self, line: Line, fill_color: FillColor = FillColor.WHITE) -> None:
         line.draw(self.__canvas, fill_color)
 
     def close(self) -> None:
