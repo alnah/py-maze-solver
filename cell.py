@@ -7,36 +7,40 @@ class Cell:
         self.has_right_wall = True
         self.has_top_wall = True
         self.has_bottom_wall = True
-        self._x1 = None
-        self._x2 = None
-        self._y1 = None
-        self._y2 = None
+        self._x1 = 0.0
+        self._x2 = 0.0
+        self._y1 = 0.0
+        self._y2 = 0.0
         self._win = win
 
     def draw(self, x1: float, y1: float, x2: float, y2: float) -> None:
-        self._x1 = x1
-        self._x2 = x2
-        self._y1 = y1
-        self._y2 = y2
+        def set_fill_color(has_wall: bool) -> FillColor:
+            if not has_wall:
+                return FillColor.WHITE
+            return FillColor.BLACK
 
-        if self._win is None:
-            raise ValueError("Cell instance expects a Window, but got None")
+        self._x1, self._y1, self._x2, self._y2 = x1, y1, x2, y2
 
-        if self.has_left_wall:
-            line = Line(Point(x1, y1), Point(x1, y2))
-            self._win.draw_line(line)
+        left_line = Line(Point(x1, y1), Point(x1, y2))
+        top_line = Line(Point(x1, y1), Point(x2, y1))
+        right_line = Line(Point(x2, y1), Point(x2, y2))
+        bottom_line = Line(Point(x1, y2), Point(x2, y2))
 
-        if self.has_top_wall:
-            line = Line(Point(x1, y1), Point(x2, y1))
-            self._win.draw_line(line)
+        line_to_has_wall = dict(
+            zip(
+                [left_line, top_line, right_line, bottom_line],
+                [
+                    self.has_left_wall,
+                    self.has_top_wall,
+                    self.has_right_wall,
+                    self.has_bottom_wall,
+                ],
+            )
+        )
 
-        if self.has_right_wall:
-            line = Line(Point(x2, y1), Point(x2, y2))
-            self._win.draw_line(line)
-
-        if self.has_bottom_wall:
-            line = Line(Point(x1, y2), Point(x2, y2))
-            self._win.draw_line(line)
+        for line, has_wall in line_to_has_wall.items():
+            if self._win is not None:
+                self._win.draw_line(line, set_fill_color(has_wall))
 
     def draw_move(self, to_cell: "Cell", undo: bool = False) -> None:
         if not self._x1 or not self._x2 or not self._y1 or not self._y2:

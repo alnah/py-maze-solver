@@ -2,7 +2,7 @@ from graphics import Window
 from cell import Cell
 import time
 
-ANIMATION_TIME: float = 0.05
+ANIMATION_TIME: float = 0.01
 
 
 class Maze:
@@ -32,9 +32,22 @@ class Maze:
             for j in range(self._num_rows):
                 col_cells.append(Cell(self._win))
             self._cells.append(col_cells)
+
         for i in range(self._num_cols):
             for j in range(self._num_rows):
                 self._draw_cell(i, j)
+
+        if self._cells:
+            self._break_entrance_and_exit()
+
+    def _break_entrance_and_exit(self) -> None:
+        entrance, exit = self._cells[0][0], self._cells[-1][-1]
+
+        entrance.has_top_wall = False
+        entrance.draw(entrance._x1, entrance._y1, entrance._x2, entrance._y2)
+
+        exit.has_bottom_wall = False
+        exit.draw(exit._x1, exit._y1, exit._x2, exit._y2)
 
     def _draw_cell(self, i: int, j: int) -> None:
         if self._win is None:
@@ -49,7 +62,7 @@ class Maze:
         self._cells[i][j].draw(x1, y1, x2, y2)
         self._animate()
 
-    def _animate(self):
+    def _animate(self) -> None:
         if self._win is None:
             return
 
