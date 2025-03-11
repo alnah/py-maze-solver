@@ -12,6 +12,7 @@ class Cell:
         self._y1 = 0.0
         self._y2 = 0.0
         self._win = win
+        self._visited = False
 
     def draw(self, x1: float, y1: float, x2: float, y2: float) -> None:
         def set_fill_color(has_wall: bool) -> FillColor:
