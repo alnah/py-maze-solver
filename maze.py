@@ -3,7 +3,8 @@ from cell import Cell
 import time
 import random
 
-ANIMATION_TIME: float = 0.05
+ANIMATION_CELLS_CREATION: float = 1 / 100000
+ANIMATION_MAZE_SOLVING: float = 1 / 25
 
 
 class Maze:
@@ -57,14 +58,14 @@ class Maze:
         y2 = y1 + self._cell_size_y
 
         self._cells[i][j].draw(x1, y1, x2, y2)
-        self._animate()
+        self._animate(ANIMATION_CELLS_CREATION)
 
-    def _animate(self) -> None:
+    def _animate(self, animation_time: float) -> None:
         if self._win is None:
             return
 
         self._win.redraw()
-        time.sleep(ANIMATION_TIME)
+        time.sleep(animation_time)
 
     def _break_entrance_and_exit(self) -> None:
         entrance, exit = self._cells[0][0], self._cells[-1][-1]
@@ -125,7 +126,7 @@ class Maze:
                 self._cells[i][j].visited = False
 
     def _solve_r(self, i: int, j: int) -> bool:
-        self._animate()
+        self._animate(ANIMATION_MAZE_SOLVING)
 
         # vist the current cell
         self._cells[i][j].visited = True
