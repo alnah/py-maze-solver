@@ -2,7 +2,7 @@ from graphics import Window, Point, Line, FillColor
 
 
 class Cell:
-    def __init__(self, win: Window) -> None:
+    def __init__(self, win: Window | None = None) -> None:
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -18,6 +18,9 @@ class Cell:
         self._x2 = x2
         self._y1 = y1
         self._y2 = y2
+
+        if self._win is None:
+            raise ValueError("Cell instance expects a Window, but got None")
 
         if self.has_left_wall:
             line = Line(Point(x1, y1), Point(x1, y2))
@@ -55,4 +58,7 @@ class Cell:
             fill_color = FillColor.GREY
 
         line = Line(Point(x_center, y_center), Point(x_center2, y_center2))
+        if self._win is None:
+            raise ValueError("Cell instance expects a Window, but got None")
+
         self._win.draw_line(line, fill_color)
