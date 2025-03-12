@@ -43,7 +43,7 @@ class Line:
 class Window:
     """Provide a graphical window for maze vizualization."""
 
-    def __init__(self, width: float, height: float):
+    def __init__(self, width: float, height: float) -> None:
         """Initialize with a canvas for drawing the maze."""
         self.__root = Tk()
         self.__root.title("Maze Solver")
