@@ -4,6 +4,7 @@ import sys
 
 
 def main():
+    """Create and solve a maze, displaying the process in a graphical window."""
     num_rows = 12
     num_cols = 16
     margin = 50

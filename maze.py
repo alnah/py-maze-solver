@@ -8,6 +8,8 @@ ANIMATION_MAZE_SOLVING: float = 1 / 25
 
 
 class Maze:
+    """Represent a maze composed of cells and manage its generation and resolution."""
+
     def __init__(
         self,
         x1: int,
@@ -19,6 +21,10 @@ class Maze:
         win: Window | None = None,
         seed: int | None = None,
     ) -> None:
+        """
+        Initialize the maze by setting up the grid, carving paths,
+        and defining entry/exit points.
+        """
         self._x1 = x1
         self._y1 = y1
         self._num_rows = num_rows
@@ -37,6 +43,7 @@ class Maze:
             self._reset_cells_visited()
 
     def _create_cells(self) -> None:
+        """Generate the grid of cells and immediately draw them for visualization."""
         for i in range(self._num_cols):
             col_cells = []
             for j in range(self._num_rows):
@@ -48,6 +55,7 @@ class Maze:
                 self._draw_cell(i, j)
 
     def _draw_cell(self, i: int, j: int) -> None:
+        """Render a single cell at its grid position to reflect its current wall status."""
         if self._win is None:
             return
 
@@ -61,6 +69,7 @@ class Maze:
         self._animate(ANIMATION_CELLS_CREATION)
 
     def _animate(self, animation_time: float) -> None:
+        """Update the display to animate maze creation or solving process."""
         if self._win is None:
             return
 
@@ -68,6 +77,7 @@ class Maze:
         time.sleep(animation_time)
 
     def _break_entrance_and_exit(self) -> None:
+        """Remove walls at the maze entry and exit."""
         entrance, exit = self._cells[0][0], self._cells[-1][-1]
 
         entrance.has_top_wall = False
@@ -77,6 +87,7 @@ class Maze:
         exit.draw(exit._x1, exit._y1, exit._x2, exit._y2)
 
     def _break_walls_with_dfs(self, start_i: int, start_j: int) -> None:
+        """Carve out the maze paths using a randomized DFS to remove walls between cells."""
         stack = [(start_i, start_j)]
         self._cells[start_i][start_j].visited = True
 
@@ -121,11 +132,16 @@ class Maze:
                 stack.pop()
 
     def _reset_cells_visited(self) -> None:
+        """Reset the visited flag for all cells after maze generation."""
         for i in range(self._num_cols):
             for j in range(self._num_rows):
                 self._cells[i][j].visited = False
 
     def _solve_r(self, i: int, j: int) -> bool:
+        """
+        Recursively attempt to solve the maze by exploring valid neighboring cells.
+        Visualize the path taken and backtracks when necessary.
+        """
         self._animate(ANIMATION_MAZE_SOLVING)
 
         # vist the current cell
@@ -187,4 +203,5 @@ class Maze:
         return False
 
     def solve(self) -> bool:
+        """Start solving the maze from the entrance."""
         return self._solve_r(0, 0)

@@ -2,7 +2,10 @@ from graphics import Window, Point, Line, FillColor
 
 
 class Cell:
+    """Represent a single maze cell that tracks walle existence and drawing state."""
+
     def __init__(self, win: Window | None = None) -> None:
+        """Initialize a cell with walls intact and mark it as unvisited."""
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -15,6 +18,8 @@ class Cell:
         self.visited = False
 
     def draw(self, x1: float, y1: float, x2: float, y2: float) -> None:
+        """Display the cell's boundaries on the window using provided coordinates."""
+
         def set_fill_color(has_wall: bool) -> FillColor:
             if not has_wall:
                 return FillColor.BLACK
@@ -44,6 +49,7 @@ class Cell:
                 self._win.draw_line(line, set_fill_color(has_wall))
 
     def draw_move(self, to_cell: "Cell", undo: bool = False) -> None:
+        """Visualize a move between two cells."""
         if not self._x1 or not self._x2 or not self._y1 or not self._y2:
             return
 
