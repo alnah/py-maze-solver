@@ -1,7 +1,6 @@
 # py-maze-solver
 
 A Python GUI tool built with Tkinter that generates and solves random mazes using the DFS algorithm.
-This project is inspired by [Boot.dev](https://github.com/bootdotdev).
 
 ## Installation
 
